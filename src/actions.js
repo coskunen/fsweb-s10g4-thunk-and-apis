@@ -1,3 +1,4 @@
+import axios from "axios";
 export const GET_FAVS_FROM_LS = "GET_FAVS_FROM_LS";
 export const FAV_ADD = "FAV_ADD";
 export const FAV_REMOVE = "FAV_REMOVE";
@@ -18,4 +19,19 @@ export const removeFav = (id) => {
 }
 
 export const fetchAnother = () => dispatch => {
+  dispatch({type : FETCH_LOADING})
+  axios.get('https://catfact.ninja/fact')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+    dispatch({type : FETCH_SUCCESS , payload : response.data})
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    dispatch({type : FETCH_ERROR , payload : error})
+  })
+  .finally(function () {
+    // always executed
+  });
 }
